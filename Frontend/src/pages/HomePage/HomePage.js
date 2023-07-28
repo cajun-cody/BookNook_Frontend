@@ -9,7 +9,11 @@ const HomePage = () => {
   // The "token" value is the JWT token sent from the backend that you will send back in the header of any request requiring authentication
   const [user, token] = useAuth();
   const [cars, setCars] = useState([]);
-
+  //Func to capitalize first letter of username. 
+  function capitalizeFirstLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+  
   useEffect(() => {
     fetchCars();
   }, [token]);
@@ -30,7 +34,7 @@ const HomePage = () => {
   return (
     <div className="container">
       {console.log(user)}
-      <h1>Home Page for {user.userName}!</h1>
+      <h1>Home Page for {capitalizeFirstLetter(user.userName)}!</h1>
       {cars &&
         cars.map((car) => (
           <p key={car.id}>
