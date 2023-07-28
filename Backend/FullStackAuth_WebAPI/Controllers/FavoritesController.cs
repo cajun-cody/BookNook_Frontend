@@ -72,10 +72,36 @@ namespace FullStackAuth_WebAPI.Controllers
         {
         }
 
-        // DELETE api/<FavoritesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DELETE api/Favorites/5
+        [HttpDelete("{bookId}"), Authorize]
+        public IActionResult Delete(string bookId)
         {
+            try
+            {
+                //Get the user Id and check if valid. 
+                var userId = User.FindFirstValue("id");
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized();
+                }
+                //Find the match of where the book Id and the user id is and select it. 
+                Favorite favorite = _context.Favorites.Where(f => f.BookId == bookId).Where(f => f.UserId == userId).FirstOrDefault();
+                Console.WriteLine(favorite);
+                if (favorite == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Favorites.Remove(favorite);
+                _context.SaveChanges();
+
+                return StatusCode(204);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
         }
     }
 }

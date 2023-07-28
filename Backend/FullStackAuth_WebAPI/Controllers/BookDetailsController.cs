@@ -59,14 +59,18 @@ namespace FullStackAuth_WebAPI.Controllers
             }
 
             //DTO returns a list of reviews associated with the bookId
-            BookDetailsDTO bookDetails = new BookDetailsDTO
+            BookDetailsDTO bookDetails = new BookDetailsDTO();
+            if (reviews.Count > 0)
             {
-                Reviews = reviews,
-                IsFavorite = favorite,
-                AverageRating = reviews.Select(r => r.Rating).Sum() / reviews.Count(),
-
-            };
-
+                bookDetails.Reviews = reviews;
+                bookDetails.AverageRating = reviews.Select(r => r.Rating).Sum() / reviews.Count();
+            }
+            else
+            {
+                bookDetails.Reviews = reviews;
+                bookDetails.AverageRating = 0;
+            }
+            bookDetails.IsFavorite = favorite;
 
             return StatusCode(200, bookDetails);
         }

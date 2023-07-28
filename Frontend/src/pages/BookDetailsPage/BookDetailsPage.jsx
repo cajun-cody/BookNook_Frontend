@@ -59,6 +59,60 @@ const BookDetailsPage = (props) => {
             getBookReviewDetails()
         }
     }
+    //Handle edit of a review. 
+    // const handleEdit = async(e) => {
+    //     e.preventDefault();
+    //     let editedReview = {
+    //         text: text,
+    //         rating: rating
+    //     }
+    //     console.log(editedReviewReview)
+    //     let response = await axios.post(`http://localhost:5216/api/Reviews/${bookId}`, {
+    //         headers: {
+    //             Authorization: "Bearer " + token
+    //         }
+    //     });
+    //     console.log(response.status)
+    //     if(response.status === 201){
+    //         setText()
+    //         setRating(0)
+    //         getBookReviewDetails()
+    //     }
+    // }
+
+
+    //Handle favorite and unfavorite
+    const handleFavorite = async() => {
+        let favorite = {
+            bookId: bookId,
+            title: book.volumeInfo.title,
+            thumbnailUrl: book.volumeInfo.imageLinks.smallThumbnail
+        }
+        console.log(favorite)
+        let response = await axios.post(`http://localhost:5216/api/Favorites`, favorite, {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        })
+        console.log(response.status)
+        if(response.status === 201){
+            getBookReviewDetails()
+        }
+    }
+
+    const handleUnFavorite = async() => {
+
+        let response = await axios.delete(`http://localhost:5216/api/Favorites/${bookId}`, {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        })
+        console.log(response.status)
+        if(response.status === 204){
+            getBookReviewDetails()
+        }
+    }
+
 
 
 
@@ -73,6 +127,7 @@ const BookDetailsPage = (props) => {
                 {book.volumeInfo && 
                 <div>
                     <img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title}/>
+                    {user ? fullReviewDetails.isFavorite ? <button className="favButton" onClick={handleUnFavorite}>Remove Favorite</button> : <button className="favButton" onClick={handleFavorite}>Add Favorite</button> : <></>}
                     <h1>{book.volumeInfo.title}</h1>
                     <p>{book.volumeInfo.description}</p>
                 </div>

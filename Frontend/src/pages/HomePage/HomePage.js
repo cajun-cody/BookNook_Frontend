@@ -8,28 +8,28 @@ const HomePage = () => {
   // The "user" value from this Hook contains user information (id, userName, email) from the decoded token
   // The "token" value is the JWT token sent from the backend that you will send back in the header of any request requiring authentication
   const [user, token] = useAuth();
-  const [cars, setCars] = useState([]);
+  // const [cars, setCars] = useState([]);
   //Func to capitalize first letter of username. 
   function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
   
-  useEffect(() => {
-    fetchCars();
-  }, [token]);
+  // useEffect(() => {
+  //   fetchCars();
+  // }, [token]);
 
-  const fetchCars = async () => {
-    try {
-      let response = await axios.get("https://localhost:5001/api/cars/myCars", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-      setCars(response.data);
-    } catch (error) {
-      console.log(error.response.data);
-    }
-  };
+  // const fetchCars = async () => {
+  //   try {
+  //     let response = await axios.get("https://localhost:5001/api/cars/myCars", {
+  //       headers: {
+  //         Authorization: "Bearer " + token,
+  //       },
+  //     });
+  //     setCars(response.data);
+  //   } catch (error) {
+  //     console.log(error.response.data);
+  //   }
+  // };
 
   return (
     <div className="container">

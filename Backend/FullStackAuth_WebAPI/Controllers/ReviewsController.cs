@@ -2,6 +2,7 @@
 using FullStackAuth_WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -54,23 +55,57 @@ namespace FullStackAuth_WebAPI.Controllers
         }
 
 
-
-
-
-
-
-
-
         // PUT api/<ReviewsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{id}"), Authorize]
+        public IActionResult Put(int id, [FromBody] Review data)
         {
+            try
+            {
+                Review review = _context.Reviews
+                    .Include(c => c.User).FirstOrDefault(c => c.Id == id);
+
+                if (review == null)
+                {
+                    return NotFound();
+                }
+
+                var userId = User.FindFirstValue("id");
+                if (string.IsNullOrEmpty(userId) || review.UserId != userId)
+                {
+
+                    return Unauthorized();
+                }
+
+                review.UserId = userId;
+                review.User = _context.Users.Find(userId);
+                review.Text = data.Text;
+                review.Rating = data.Rating;
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _context.SaveChanges();
+                return StatusCode(201, review);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
-        // DELETE api/<ReviewsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DELETE api/Reviews/5
+        [HttpDelete("{id}"), Authorize]
+        public IActionResult Delete(int id)
         {
+            Review review = _context.Reviews.Find(id);
+ 
+            if (review == null)
+            {
+                return NotFound();
+            }
+            _context.Reviews.Remove(review);
+            _context.SaveChanges();
+            return StatusCode(204);
         }
     }
 }

@@ -8,7 +8,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import BookDetailsPage from "./pages/BookDetailsPage/BookDetailsPage";
-import FavoritesPage from "./pages/FavoritesPage/Favorites";
+import FavoritesPage from "./pages/FavoritesPage/FavoritesPage";
 
 
 // Component Imports
