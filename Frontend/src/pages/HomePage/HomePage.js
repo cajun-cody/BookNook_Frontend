@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const HomePage = () => {
@@ -35,12 +35,18 @@ const HomePage = () => {
     <div className="container">
       {console.log(user)}
       <h1>Home Page for {capitalizeFirstLetter(user.userName)}!</h1>
-      {cars &&
+      <br></br>
+      <Link to="/search" >
+        <div>Search Books</div>
+      </Link>
+      
+      
+      {/* {cars &&
         cars.map((car) => (
           <p key={car.id}>
             {car.year} {car.model} {car.make}
           </p>
-        ))}
+        ))} */}
     </div>
   );
 };

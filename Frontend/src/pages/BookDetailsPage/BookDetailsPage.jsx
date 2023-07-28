@@ -12,6 +12,8 @@ const BookDetailsPage = (props) => {
     const {bookId} = useParams();
     const [book, setBook] = useState({});
     const [fullReviewDetails, setFullReviewDetails] = useState({})
+    const [text, setText] = useState();
+    const [rating, setRating] = useState(0);
 
     //Get a book to display on details
     const getBook = async() =>{
@@ -36,6 +38,29 @@ const BookDetailsPage = (props) => {
         getBookReviewDetails()
     }, [bookId]) 
 
+    //Handle submit to post a new review. 
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        let newReview = {
+            bookId: bookId,
+            text: text,
+            rating: rating
+        }
+        console.log(newReview)
+        let response = await axios.post('http://localhost:5216/api/Reviews', newReview, {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        });
+        console.log(response.status)
+        if(response.status === 201){
+            setText()
+            setRating(0)
+            getBookReviewDetails()
+        }
+    }
+
+
 
     function capitalizeFirstLetter(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
@@ -59,11 +84,20 @@ const BookDetailsPage = (props) => {
                         <h2>Average User Rating: {fullReviewDetails.averageRating}</h2>
                         <h3>User Reviews:</h3>
                         {fullReviewDetails.reviews.map((review, index) => 
-                        <><span key={index}>{capitalizeFirstLetter(review.user.userName)}</span> - <span>{review.text}</span><br /></>)} 
-                    </> 
+                    <><span key={index}>{capitalizeFirstLetter(review.user.userName)}</span> - <span>{review.text}</span><br /></>)}</> 
                 ) : <></>
                 } 
-                <br />
+            <br />
+            {user ? //Shor Circuit Conditional to check if the user is logged in. 
+            <form onSubmit={handleSubmit}>
+                    <label>Leave A Review:</label>
+                    <textarea className="reviewText" rows="10" cols="40" type="text" onChange={(e) => setText(e.target.value)} value={text} />
+                    <br />
+                    <label>Rating (1-5):</label>
+                    <input className="ratingInput" type="number" onChange={(e) => setRating(e.target.value)} value={rating} />
+                    <button type="submit">Post Review</button>
+                </form> : <p>Log in to leave review</p>}
+
             </div>
            
         </div>
