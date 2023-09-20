@@ -1,4 +1,4 @@
-ul {
+/* ul {
   display: flex;
   justify-content: space-between;
   list-style-type: none;
@@ -32,4 +32,41 @@ li {
 .brand {
   cursor: pointer;
   font-size: 2rem;
+} */
+
+/* NavBar.css */
+
+.navBar {
+  background-color: #000000;
+  color: #fff;
+  padding: 10px 0;
+}
+
+.navBar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.navBar li {
+  margin: 0 20px;
+}
+
+.navBar a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.navBar button {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
 }

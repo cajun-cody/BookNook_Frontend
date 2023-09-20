@@ -1,0 +1,120 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Header */
+  .header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .header h1 {
+    font-size: 36px;
+    margin: 0;
+  }
+  
+  /* Login prompt */
+  .login-prompt {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .login-prompt p {
+    font-size: 18px;
+  }
+  
+  .login-link {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  /* Main content */
+  .home-content {
+    padding: 20px;
+    background-image: url("/src/Assets/library.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .home-content h1 {
+    font-size: 28px;
+    margin-top: 0;
+  }
+  
+  .search-link {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #000000;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+    margin-top: 20px;
+  }
+  
+  .interest {
+    font-size: 24px;
+    color:#fff;
+    margin-top: 30px;
+  }
+  
+  /* Book list */
+  .book-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .book {
+    background-color:rgba(255, 255, 255, 0.8);
+    align-content: center;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    width: calc(33.33% - 20px);
+    margin-bottom: 20px;
+    overflow: hidden;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center; 
+    padding: 20px;
+  }
+  
+  .book img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .book-title {
+    font-size: 18px;
+    margin: 10px;
+  }
+  
+  /* Responsive layout */
+  @media (max-width: 768px) {
+    .book {
+      width: calc(50% - 20px);
+    }
+  
+    .header h1 {
+      font-size: 24px;
+    }
+  
+    .home-content h1 {
+      font-size: 24px;
+    }
+  }

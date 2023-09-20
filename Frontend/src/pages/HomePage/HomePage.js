@@ -1,54 +1,73 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
-import { Link } from "react-router-dom";
-import axios from "axios";
 
-const HomePage = () => {
-  // The "user" value from this Hook contains user information (id, userName, email) from the decoded token
-  // The "token" value is the JWT token sent from the backend that you will send back in the header of any request requiring authentication
-  const [user, token] = useAuth();
-  // const [cars, setCars] = useState([]);
-  //Func to capitalize first letter of username. 
+import React, { useEffect, useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import { Link, Redirect } from "react-router-dom";
+import axios from "axios";
+import './HomePage.css';
+
+const HomeContent = ({ user, token }) => {
+  const [books, setBooks] = useState([]);
+
+  //Func to capitalize first letter of username.
   function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
-  
-  // useEffect(() => {
-  //   fetchCars();
-  // }, [token]);
 
-  // const fetchCars = async () => {
-  //   try {
-  //     let response = await axios.get("https://localhost:5001/api/cars/myCars", {
-  //       headers: {
-  //         Authorization: "Bearer " + token,
-  //       },
-  //     });
-  //     setCars(response.data);
-  //   } catch (error) {
-  //     console.log(error.response.data);
-  //   }
-  // };
+  useEffect(() => {
+    fetchBooks();
+  }, [token]);
+
+  const fetchBooks = async () => {
+    try {
+      let response = await axios.get(
+        "https://www.googleapis.com/books/v1/volumes?q=money&maxResults=6",
+        // {
+        //   headers: {
+        //     Authorization: "Bearer " + token,
+        //   },
+        // }
+      );
+      setBooks(response.data.items);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
 
   return (
-    <div className="container">
-      {console.log(user)}
-      <h1>Home Page for {capitalizeFirstLetter(user.userName)}!</h1>
-      <br></br>
-      <Link to="/search" >
+    <div className="home-content">
+      <h1 className="welcome">Welcome, {capitalizeFirstLetter(user.userName)}!</h1>
+      <Link to="/search" className="search-link">
         <div>Search Books</div>
       </Link>
-      
-      
-      {/* {cars &&
-        cars.map((car) => (
-          <p key={car.id}>
-            {car.year} {car.model} {car.make}
-          </p>
-        ))} */}
+      <h4 className="interest">Is your interest in books about money?</h4>
+      <div className="book-list">
+        {books &&
+        books.map((item) => (
+          <Link to={`/bookdetails/${item.id}`} key={item.id} className="book">
+            <img src={item.volumeInfo.imageLinks.thumbnail} alt="Thumbnail"></img>
+            <p className="book-title">{item.volumeInfo.title}</p>
+          </Link>
+        ))}
+      </div>
     </div>
   );
+};
+
+const HomePage = () => {
+  const [user, token] = useAuth();
+
+  // Check if the user is logged in
+  if (!user || !token) {
+    // If not logged in, you can return a message or redirect to a login page
+    return (
+      <div className="container">
+        <p>Please login to access BookNook.</p>
+        <Link to="/login">Login</Link>
+      </div>
+    );
+  }
+
+  return <HomeContent user={user} token={token} />;
 };
 
 export default HomePage;

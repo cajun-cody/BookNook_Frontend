@@ -11,18 +11,18 @@ const Navbar = () => {
     <div className="navBar">
       <ul>
         <li className="brand">
-          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
             <b>BookNook</b>
           </Link>
         </li>
         <li>          
-          <Link to="/search" style={{ textDecoration: "none", color: "white" }}>
+          <Link to="/search" style={{ textDecoration: "none" }}>
             <b>Search</b>
           </Link>
         </li>
         <li>
           {user ? (
-              <Link to="/favorites" style={{ textDecoration: "none", color: "white" }}>
+              <Link to="/favorites" style={{ textDecoration: "none" }}>
                 <b>Favorites</b>
               </Link>
           ) : <></>}

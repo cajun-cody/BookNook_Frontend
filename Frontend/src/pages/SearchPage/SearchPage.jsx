@@ -27,7 +27,10 @@ const SearchPage = (props) => {
                 <input type="submit" value="Search" />
             </form>
             {books && books.map((item) => (              
-                <Link to={`/bookdetails/${item.id}`}><p>{item.volumeInfo.title}</p></Link>
+                <Link to={`/bookdetails/${item.id}`}>
+                    <p>{item.volumeInfo.title}</p>
+                    <img src={item.volumeInfo.imageLinks.thumbnail} alt="Thumbnail"></img>
+                    </Link>
             ))}
         </div>
 
