@@ -1,8 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import './SearchPage.css';
 
-const SearchPage = (props) => {
+const SearchPage = ({user}) => {
 
     //State variables to set the search and results. Set each to an empty array. 
     const [search, setSearch] = useState([])
@@ -14,24 +15,30 @@ const SearchPage = (props) => {
         let response = await axios.get(`https://www.googleapis.com/books/v1/volumes/?q=${search}/`)
         console.log(response)
         setBooks(response.data.items)
+        console.log(user)
     }
 
 
-
     return ( 
-        <div>
-            <div>This is my search page!</div>
+        <div className="search-container">
+            <div className="search-header">What do you want to search for?</div>
             <form onSubmit={handleSubmit}>
-                <h2>Search For Books:   </h2>
-                <input type="text" onChange={(e) => setSearch(e.target.value)} value={search} /> 
-                <input type="submit" value="Search" />
+                {/* <h2>Search For Books:   </h2> */}
+                <input type="text" onChange={(e) => setSearch(e.target.value)} value={search} className="search-input"/> 
+                <input type="submit" value="Search" className="search-button"/>
             </form>
-            {books && books.map((item) => (              
-                <Link to={`/bookdetails/${item.id}`}>
-                    <p>{item.volumeInfo.title}</p>
+            <div className="search-results">
+                {books && books.map((item) => (              
+                <div className="search-item" >
+                    <Link to={`/bookdetails/${item.id}`}>
+                    <p className="search-item-title">{item.volumeInfo.title}</p>
                     <img src={item.volumeInfo.imageLinks.thumbnail} alt="Thumbnail"></img>
                     </Link>
-            ))}
+                 </div>
+
+            ))} 
+            </div>
+
         </div>
 
      );

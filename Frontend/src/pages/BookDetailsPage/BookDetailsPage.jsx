@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import './BookDetails.css';
 
 
 const BookDetailsPage = (props) => {
@@ -121,19 +122,60 @@ const BookDetailsPage = (props) => {
       }
 
     return ( 
-        <div>
-            <div>This is my book details!</div>
-            <div className="bookInfo">
+        <div className="book-details-container">
+            {/* <div className="book-info">
                 {book.volumeInfo && 
-                <div>
-                    <img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title}/>
-                    {user ? fullReviewDetails.isFavorite ? <button className="favButton" onClick={handleUnFavorite}>Remove Favorite</button> : <button className="favButton" onClick={handleFavorite}>Add Favorite</button> : <></>}
-                    <h1>{book.volumeInfo.title}</h1>
-                    <p>{book.volumeInfo.description}</p>
+                <div className="book-details">
+                    <div className="book-image">
+                        <img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title}/>
+                    </div> 
+                    <div>
+                        <h1>{book.volumeInfo.title}</h1>  
+                        <p>{book.volumeInfo.description}</p>
+                     {user ? (
+                        fullReviewDetails.isFavorite ? (
+                            <button className="favButton" onClick={handleUnFavorite}>
+                                Remove Favorite
+                                </button> 
+                                ): (
+                                <button className="favButton" onClick={handleFavorite}>
+                                    Add Favorite
+                                </button>
+                                )
+                                ) : (
+                            <></>
+                    )}
+                    </div>                   
                 </div>
-                }
-            </div>
-            <div className="reviewInfo">
+                )}
+            </div> */}
+            <div className="book-info">
+      {book.volumeInfo && (
+        <div className="book-details">
+          <div className="book-image">
+            <img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title} />
+          </div>
+          <div className="book-description">
+            <h1 className="book-title">{book.volumeInfo.title}</h1>
+            <p>{book.volumeInfo.description}</p>
+            {user ? (
+              fullReviewDetails.isFavorite ? (
+                <button className="favButton" onClick={handleUnFavorite}>
+                  Remove Favorite
+                </button>
+              ) : (
+                <button className="favButton" onClick={handleFavorite}>
+                  Add Favorite
+                </button>
+              )
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+            <div className="user-reviews">
             {fullReviewDetails.reviews?(
                     <>
                         <h2>Average User Rating: {fullReviewDetails.averageRating}</h2>
@@ -143,16 +185,19 @@ const BookDetailsPage = (props) => {
                 ) : <></>
                 } 
             <br />
-            {user ? //Shor Circuit Conditional to check if the user is logged in. 
-            <form onSubmit={handleSubmit}>
+            <div className="leave-review">
+                {user ? //Shor Circuit Conditional to check if the user is logged in. 
+                <form onSubmit={handleSubmit}>
                     <label>Leave A Review:</label>
-                    <textarea className="reviewText" rows="10" cols="40" type="text" onChange={(e) => setText(e.target.value)} value={text} />
+                    <textarea className="review-textarea" rows="10" cols="40" type="text" onChange={(e) => setText(e.target.value)} value={text} />
                     <br />
                     <label>Rating (1-5):</label>
                     <input className="ratingInput" type="number" onChange={(e) => setRating(e.target.value)} value={rating} />
-                    <button type="submit">Post Review</button>
+                    <button type="submit" className="submit-review-button">Post Review</button>
                 </form> : <p>Log in to leave review</p>}
 
+            </div>
+            
             </div>
            
         </div>
